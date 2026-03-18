@@ -35,25 +35,30 @@ console.log('#55. JavaScript homework example file');
  */
 
 function asyncOperationDemo(callback) {
-  console.log ('Перший виклик ')
-  
-process.nextTick(() => {
-  console.log ('Виконано nextTick')
-  callback(nextTick)
-})
+  console.log('Перший виклик');
 
-setImmediate (() => {
-  console.log ('Виконано setImmediate')
-  callback(setImmediate)
-})
+  const notify = operation => {
+    if (typeof callback === 'function') {
+      callback(operation);
+    }
+  };
 
-setTimeout (() => {
-  console.log ('Виконано setTimeout')
-  callback(setTimeout)
-}, 0)
+  process.nextTick(() => {
+    console.log('Виконано nextTick');
+    notify('nextTick');
+  });
 
-console.log('Останній виклик')
+  setImmediate(() => {
+    console.log('Виконано setImmediate');
+    notify('setImmediate');
+  });
 
+  setTimeout(() => {
+    console.log('Виконано setTimeout');
+    notify('setTimeout');
+  }, 0);
+
+  console.log('Останній виклик');
 }
 
 asyncOperationDemo(operation => {
